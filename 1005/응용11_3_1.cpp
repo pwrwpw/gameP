@@ -4,7 +4,14 @@
 #include <time.h>
 #include <windows.h>
 
+#define UP 72
+#define DOWN 80
+#define SPACE 4
 int intro_game(void);
+int menu();
+int game(void);
+void title();
+void move_arrow_key(char chr, int *x, int *y, int x_b, int y_b);
 void draw_check02(int r, int c);
 void gotoxy(int x, int y);
 void number_display(int n);
@@ -14,6 +21,27 @@ void game_control(char question[][10], int n, int *count);
 void clear_text(void);
 
 int main(void)
+{
+		while(1){
+		title();
+		int menuValue = menu();
+		if(menuValue == 0){
+			game();
+			// 게임 시작 
+		}
+		else if(menuValue == 1){
+			// 랭킹 
+		}
+		else if(menuValue == 2){
+			system("cls");
+			printf("종료 되었습니다.");
+			return 0;
+		}
+		system("cls");
+	}
+	return 0;
+}
+int game(void)
 {
 	int n, count=0;
 	char question[10][10]={0};
@@ -41,9 +69,7 @@ int main(void)
 	seconds=pst-minutes*60;
 	gotoxy(2, 19);
 	printf("경과시간 : %ld분 %ld 초\n", minutes, seconds);
-	return 0;
 }
-
 int intro_game(void)
 {
  //[함수 11.3.1]의 정의 부분 참고
@@ -54,7 +80,8 @@ int intro_game(void)
 	printf("게임입니다. \n\n");
 	printf("행의 숫자(4 또는 6)를 입력하고 Enter>");
 	scanf("%d",&n);
-	return n;
+	if(n == 4 || n == 6) 	return n;
+	else intro_game();
 }
 void display_rule(int n, char question[][10])
 {
@@ -83,7 +110,7 @@ void game_control(char question[][10], int n, int *count)
 	printf("첫번째 숫자를 입력하고 Enter>");
 	scanf("%d", &user1);
 	row1=user1/n;
-        col1=user1%n;
+    col1=user1%n;
 	gotoxy(2, 15);
 	printf("두번째 숫자를 입력하고 Enter>");
 	scanf("%d", &user2);
@@ -193,7 +220,7 @@ void draw_check02(int r, int c)
     for(i=1;i<12;i++)
 	b[i]=0xa0+i;
     printf("%c%c",a, b[3]);
-    for(i=0;i<c-1;i++)
+    for(i=0;i<2*c-1;i++)
     {
 	printf("%c%c", a, b[1]);
 	printf("%c%c", a, b[8]);
@@ -204,14 +231,14 @@ void draw_check02(int r, int c)
     for(i=0;i<r-1;i++)
     {
 	printf("%c%c", a, b[2]);
-	for(j=0;j<c;j++)
+	for(j=0;j<2*c;j++)
 	{
-		printf("  ");
+		printf(" ");
 		printf("%c%c",a, b[2]);
 	}
 	printf("\n");
 	printf("%c%c", a, b[7]);
-	for(j=0;j<c-1;j++)
+	for(j=0;j<2*c-1;j++)
 	{
 		printf("%c%c", a, b[1]);
 		printf("%c%c", a, b[11]);
@@ -221,14 +248,14 @@ void draw_check02(int r, int c)
 	printf("\n");
     }
     printf("%c%c", a, b[2]);
-    for(j=0;j<c;j++)
+    for(j=0;j<2*c;j++)
     {
-	printf("  ");
+	printf(" ");
 	printf("%c%c",a, b[2]);
     }
     printf("\n");
     printf("%c%c", a, b[6]);
-    for(i=0;i<c-1;i++)
+    for(i=0;i<2*c-1;i++)
     {
 	printf("%c%c", a, b[1]);
 	printf("%c%c", a, b[10]);
@@ -241,4 +268,64 @@ void gotoxy(int x, int y)
 {
    COORD Pos = {x - 1, y - 1};
    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Pos);
+}
+void title(){
+	printf("\n\n"); // 3칸 띄우기 
+	printf("         ####      #    #       #  ###### \n");
+	printf("        #    #     #    ##     ##  #   \n");
+	printf("       #          # #   ##     ##  #    \n");
+	printf("       #          # #   # #   # #  #      \n");
+	printf("       #  ####   #   #  # #   # #  ###### \n");
+	printf("       #     #   #   #  #  # #  #  #      \n");
+	printf("       #     #   #####  #  # #  #  #      \n");
+	printf("       #     #  #     # #   #   #  #      \n");
+	printf("        #   ##  #     # #   #   #  #      \n");
+	printf("         ### #  #     # #       #  ###### \n");
+}
+int menu(){
+	int x = 20;
+	int y = 16;
+	char key;
+	gotoxy(x-2,y);
+	printf("> 게임시작");
+	gotoxy(x,y+1);
+	printf("랭킹");
+	gotoxy(x,y+2);
+	printf("종료");
+do
+    {
+	gotoxy(1,1);
+	gotoxy(x-2, y);
+	printf("> ");
+	gotoxy(35, 17);
+	printf("방향키를 누르시오.");
+	gotoxy(35,18);
+	printf("선택은 스페이스바를 눌러주세요.");
+	key=getch();
+	if (key>=72){
+		gotoxy(x-2,y);
+		printf(" ");
+		move_arrow_key(key, &x, &y, 37, 19); //수정부분
+	}
+	else if(key == 32){
+		return y-16;
+	}
+
+   }while(1);
+}
+void move_arrow_key(char key, int *x1, int *y1, int x_b, int y_b)
+{
+	switch(key)
+	{
+	case 72:  //위쪽(상) 방향의 화살표 키 입력
+		*y1=*y1-1;
+		if (*y1<16)	*y1=16; //y좌표의 최소값
+		break;
+	case 80:  //아래쪽(하) 방향의 화살표 키 입력
+		*y1=*y1+1;
+		if (*y1>18)  *y1=18; //y좌표의 최대값(경계)
+		break;
+	default:
+		return;
+	}
 }
