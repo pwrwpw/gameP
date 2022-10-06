@@ -7,8 +7,10 @@
 #define UP 72
 #define DOWN 80
 #define SPACE 4
+clock_t start; // 확인 필요 
 int intro_game(void);
 int menu();
+int time(void);
 int game(void);
 void title();
 void move_arrow_key(char chr, int *x, int *y, int x_b, int y_b);
@@ -27,6 +29,7 @@ int main(void)
 		int menuValue = menu();
 		if(menuValue == 0){
 			game();
+			time();
 			// 게임 시작 
 		}
 		else if(menuValue == 1){
@@ -46,8 +49,6 @@ int game(void)
 	int n, count=0;
 	char question[10][10]={0};
 	char answer[10][10]={0};
-	long pst, seconds, minutes;
-	clock_t start, end;
 
 	srand(time(NULL));
 	n=intro_game();
@@ -61,6 +62,10 @@ int game(void)
 	{
 		game_control(question, n, &count);
 	}while(count<n*n/2);
+}
+int time(void){
+	long pst, seconds, minutes;
+	clock_t end;
 	gotoxy(2, 18);
 	printf("모두 맞았습니다. 종료합니다. \n");
 	end=clock();
@@ -105,15 +110,40 @@ void display_rule(int n, char question[][10])
 void game_control(char question[][10], int n, int *count)
 {
  //[함수 11.3.3]의 정의 부분 참고
-	int user1, user2, row1, row2, col1, col2;
-	gotoxy(2, 14);
+int user1, user2, row1, row2, col1, col2;
+	int position=14;
+	gotoxy(2, position);
 	printf("첫번째 숫자를 입력하고 Enter>");
 	scanf("%d", &user1);
+	if(user1 >= n*n){
+		while(user1 >= n*n){
+			gotoxy(2, position);
+			printf("입력된 값이 존재 하지 않습니다. 다시 입력 해주세요.>");
+			scanf("%d",&user1);
+			clear_text();
+	}
+}
 	row1=user1/n;
-    col1=user1%n;
-	gotoxy(2, 15);
+        col1=user1%n;
+	gotoxy(2, position+1);
 	printf("두번째 숫자를 입력하고 Enter>");
 	scanf("%d", &user2);
+	if(user2 >= n*n){
+		while(user2 >= n*n){
+			gotoxy(2, position+1);
+			printf("입력된 값이 존재 하지 않습니다. 다시 입력 해주세요.>");
+			scanf("%d",&user2);
+			clear_text();
+		}
+	}
+	else if(user2 == user1){
+		while(user2 == user1){
+			gotoxy(2, position+2);
+			printf("입력된 값이 동일합니다. 다시 입력 해주세요.>");
+			scanf("%d",&user2);
+			clear_text();
+		}
+	}	
 	row2=user2/n;
 	col2=user2%n;
 	if (question[row1][col1]==question[row2][col2])
@@ -141,7 +171,7 @@ void game_control(char question[][10], int n, int *count)
 		  printf("%2d", user1);
 		  gotoxy(3+4*col2, 2+2*row2);
 		  printf("%2d", user2);
-  	  	  gotoxy(2, 16);
+  	  	  gotoxy(2, position+1);
 	          printf("틀렸습니다. 아무키나 누르면 시작합니다. ");
 		  getch();
 		  clear_text();
@@ -154,7 +184,7 @@ void clear_text(void)
 	for(i=14;i<17;i++)
 	{
 		gotoxy(2, i);
-		for(j=0;j<50;j++)
+		for(j=0;j<70;j++)
 			printf(" ");
 	}
 }
