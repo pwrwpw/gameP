@@ -6,11 +6,10 @@
 
 #define UP 72
 #define DOWN 80
-#define SPACE 4
+#define SPACE 4	
 clock_t start; // 확인 필요 
 int intro_game(void);
 int menu();
-int time(void);
 int game(void);
 void title();
 void move_arrow_key(char chr, int *x, int *y, int x_b, int y_b);
@@ -29,7 +28,7 @@ int main(void)
 		int menuValue = menu();
 		if(menuValue == 0){
 			game();
-			time();
+			return 0;
 			// 게임 시작 
 		}
 		else if(menuValue == 1){
@@ -40,7 +39,6 @@ int main(void)
 			printf("종료 되었습니다.");
 			return 0;
 		}
-		system("cls");
 	}
 	return 0;
 }
@@ -49,6 +47,8 @@ int game(void)
 	int n, count=0;
 	char question[10][10]={0};
 	char answer[10][10]={0};
+	long pst, seconds, minutes;
+	clock_t start, end;
 
 	srand(time(NULL));
 	n=intro_game();
@@ -62,10 +62,6 @@ int game(void)
 	{
 		game_control(question, n, &count);
 	}while(count<n*n/2);
-}
-int time(void){
-	long pst, seconds, minutes;
-	clock_t end;
 	gotoxy(2, 18);
 	printf("모두 맞았습니다. 종료합니다. \n");
 	end=clock();
@@ -74,7 +70,9 @@ int time(void){
 	seconds=pst-minutes*60;
 	gotoxy(2, 19);
 	printf("경과시간 : %ld분 %ld 초\n", minutes, seconds);
+	return 0;
 }
+ 
 int intro_game(void)
 {
  //[함수 11.3.1]의 정의 부분 참고
@@ -115,8 +113,8 @@ int user1, user2, row1, row2, col1, col2;
 	gotoxy(2, position);
 	printf("첫번째 숫자를 입력하고 Enter>");
 	scanf("%d", &user1);
-	if(user1 >= n*n){
-		while(user1 >= n*n){
+	if(user1 <= 0 || user1 >= n*n){
+		while(user1 <= 0 || user1 >= n*n){
 			gotoxy(2, position);
 			printf("입력된 값이 존재 하지 않습니다. 다시 입력 해주세요.>");
 			scanf("%d",&user1);
@@ -128,8 +126,8 @@ int user1, user2, row1, row2, col1, col2;
 	gotoxy(2, position+1);
 	printf("두번째 숫자를 입력하고 Enter>");
 	scanf("%d", &user2);
-	if(user2 >= n*n){
-		while(user2 >= n*n){
+	if(user2 <= 0 || user2 >= n*n ){
+		while(user2 <= 0 ||user2 >= n*n){
 			gotoxy(2, position+1);
 			printf("입력된 값이 존재 하지 않습니다. 다시 입력 해주세요.>");
 			scanf("%d",&user2);
@@ -146,11 +144,22 @@ int user1, user2, row1, row2, col1, col2;
 	}	
 	row2=user2/n;
 	col2=user2%n;
+	gotoxy(28, 4);
+	printf("맞은 개수:%2d개(총 %2d개)", *count, n*2);
+	for(int i = 0; i < (n*n/2); i++){ // 이부분 수정하기 
+		if (i < (n*n/4))
+			gotoxy(28 + (4 * i), 5);
+		else
+			gotoxy(28 + (4 * (i - (n * n / 4))), 6);
+		printf("%c", (char)'A'+i);
+		}
 	if (question[row1][col1]==question[row2][col2])
 	{
 		  *count=*count+1;
-		  gotoxy(28, 4);
-		  printf("맞은 개수:%2d개(총 %2d개)", *count, n*2);
+		  if((int)question[row1][col1] - 65 < (n*n/4))
+		  		gotoxy(30 + 4 * ((int)question[row1][col1]-65),5);
+		  else
+		  		gotoxy(30 + 4 * ((int)question[row1][col1]-65 - (n*n / 4)),6);	
 		  gotoxy(3+4*col1, 2+2*row1);
 		  printf("%2c", question[row1][col1]);
 		  gotoxy(3+4*col2, 2+2*row2);
@@ -172,7 +181,7 @@ int user1, user2, row1, row2, col1, col2;
 		  gotoxy(3+4*col2, 2+2*row2);
 		  printf("%2d", user2);
   	  	  gotoxy(2, position+1);
-	          printf("틀렸습니다. 아무키나 누르면 시작합니다. ");
+	      printf("틀렸습니다. 아무키나 누르면 시작합니다. ");
 		  getch();
 		  clear_text();
 	}
