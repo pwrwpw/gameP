@@ -24,21 +24,21 @@ void clear_text(void);
 int main(void)
 {
 		while(1){
-		title();
-		int menuValue = menu();
-		if(menuValue == 0){
-			game();
-			return 0;
-			// 게임 시작 
-		}
-		else if(menuValue == 1){
-			// 랭킹 
-		}
-		else if(menuValue == 2){
-			system("cls");
-			printf("종료 되었습니다.");
-			return 0;
-		}
+			title();
+			int menuValue = menu();
+			if(menuValue == 0){
+				game();
+				system("cls");
+				// 게임 시작 
+			}
+			else if(menuValue == 1){
+				// 랭킹 
+			}
+			else if(menuValue == 2){
+				system("cls");
+				printf("종료 되었습니다.");
+				return 0;
+			}
 	}
 	return 0;
 }
@@ -63,13 +63,14 @@ int game(void)
 		game_control(question, n, &count);
 	}while(count<n*n/2);
 	gotoxy(2, 18);
-	printf("모두 맞았습니다. 종료합니다. \n");
+	printf("모두 맞았습니다. 아무거나 누르면 메뉴로 돌아갑니다. \n");
 	end=clock();
 	pst=(end-start)/CLK_TCK;
 	minutes=pst/60;
 	seconds=pst-minutes*60;
 	gotoxy(2, 19);
 	printf("경과시간 : %ld분 %ld 초\n", minutes, seconds);
+	getch();
 	return 0;
 }
  
@@ -113,8 +114,8 @@ int user1, user2, row1, row2, col1, col2;
 	gotoxy(2, position);
 	printf("첫번째 숫자를 입력하고 Enter>");
 	scanf("%d", &user1);
-	if(user1 <= 0 || user1 >= n*n){
-		while(user1 <= 0 || user1 >= n*n){
+	if(user1 < 0 || user1 >= n*n){
+		while(user1 < 0 || user1 >= n*n){
 			gotoxy(2, position);
 			printf("입력된 값이 존재 하지 않습니다. 다시 입력 해주세요.>");
 			scanf("%d",&user1);
@@ -126,8 +127,8 @@ int user1, user2, row1, row2, col1, col2;
 	gotoxy(2, position+1);
 	printf("두번째 숫자를 입력하고 Enter>");
 	scanf("%d", &user2);
-	if(user2 <= 0 || user2 >= n*n ){
-		while(user2 <= 0 ||user2 >= n*n){
+	if(user2 < 0 || user2 >= n*n ){
+		while(user2 < 0 ||user2 >= n*n){
 			gotoxy(2, position+1);
 			printf("입력된 값이 존재 하지 않습니다. 다시 입력 해주세요.>");
 			scanf("%d",&user2);
@@ -155,19 +156,22 @@ int user1, user2, row1, row2, col1, col2;
 		}
 	if (question[row1][col1]==question[row2][col2])
 	{
-		  *count=*count+1;
+		*count=*count+1;
+		gotoxy(28, 4);
+		printf("맞은 개수:%2d개(총 %2d개)", *count, n*2);
 		  if((int)question[row1][col1] - 65 < (n*n/4))
 		  		gotoxy(30 + 4 * ((int)question[row1][col1]-65),5);
 		  else
 		  		gotoxy(30 + 4 * ((int)question[row1][col1]-65 - (n*n / 4)),6);	
-		  gotoxy(3+4*col1, 2+2*row1);
-		  printf("%2c", question[row1][col1]);
-		  gotoxy(3+4*col2, 2+2*row2);
-		  printf("%2c", question[row2][col2]);
-	  	  gotoxy(2, 16);
-	      printf("맞았습니다. 아무키나 누르면 다시 시작합니다. ");
-  		  getch();
-		  clear_text();
+		printf("0"); 
+		gotoxy(3+4*col1, 2+2*row1);
+		printf("%2c", question[row1][col1]);
+		gotoxy(3+4*col2, 2+2*row2);
+		printf("%2c", question[row2][col2]);
+	  	gotoxy(2, 16);
+	    printf("맞았습니다. 아무키나 누르면 다시 시작합니다. ");
+  		getch();
+		clear_text();
 	}
 	else
 	{
