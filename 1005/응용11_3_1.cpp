@@ -7,7 +7,6 @@
 #define UP 72
 #define DOWN 80
 #define SPACE 4	
-clock_t start; // 확인 필요 
 int intro_game(void);
 int menu();
 int game(void);
