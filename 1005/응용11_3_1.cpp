@@ -31,9 +31,6 @@ int main(void)
 				// 게임 시작 
 			}
 			else if(menuValue == 1){
-				// 랭킹 
-			}
-			else if(menuValue == 2){
 				system("cls");
 				printf("종료 되었습니다.");
 				return 0;
@@ -331,17 +328,15 @@ int menu(){
 	gotoxy(x-2,y);
 	printf("> 게임시작");
 	gotoxy(x,y+1);
-	printf("랭킹");
-	gotoxy(x,y+2);
 	printf("종료");
 do
     {
 	gotoxy(1,1);
 	gotoxy(x-2, y);
 	printf("> ");
-	gotoxy(35, 17);
+	gotoxy(35, 16);
 	printf("방향키를 누르시오.");
-	gotoxy(35,18);
+	gotoxy(35,17);
 	printf("선택은 스페이스바를 눌러주세요.");
 	key=getch();
 	if (key>=72){
@@ -365,7 +360,7 @@ void move_arrow_key(char key, int *x1, int *y1, int x_b, int y_b)
 		break;
 	case 80:  //아래쪽(하) 방향의 화살표 키 입력
 		*y1=*y1+1;
-		if (*y1>18)  *y1=18; //y좌표의 최대값(경계)
+		if (*y1>17)  *y1=17; //y좌표의 최대값(경계)
 		break;
 	default:
 		return;
