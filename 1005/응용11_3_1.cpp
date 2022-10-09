@@ -10,15 +10,17 @@
 int intro_game(void);
 int menu();
 int game(void);
+void levelSelectMenu();
 void title();
-void move_arrow_key(char chr, int *x, int *y, int x_b, int y_b);
 void draw_check02(int r, int c);
-void gotoxy(int x, int y);
 void number_display(int n);
-void display_rule(int n, char question[][10]);
+void display_rule(int n, char question[][10],int sleep_speed);
 void make_question(int n, char question[][10]);
-void game_control(char question[][10], int n, int *count);
+void game_control(char question[][10], int n, int *count,int sleep_speed);
 void clear_text(void);
+void move_arrow_key(char chr, int *x, int *y, int x_b, int y_b);
+void gotoxy(int x, int y);
+void textcolor(int color_number);
 
 int main(void)
 {
@@ -40,23 +42,46 @@ int main(void)
 }
 int game(void)
 {
-	int n, count=0;
+	int n, count=0,select,sleep_speed;
 	char question[10][10]={0};
 	char answer[10][10]={0};
 	long pst, seconds, minutes;
 	clock_t start, end;
 
 	srand(time(NULL));
+	while(1)
+	{
+		levelSelectMenu();
+		scanf("%d",&select);
+		system("cls");
+		if(select == 1){
+			sleep_speed = 5000;
+			break;
+			// easy
+		}
+		else if(select == 2){
+			sleep_speed = 3000;
+			break;
+			// normal
+		}
+		else if(select == 3){
+			sleep_speed = 1000;
+			break;
+			// hard
+		}
+		else if(select == 0) return 0; // menu
+		else continue;
+	}
 	n=intro_game();
 	system("cls");
 	draw_check02(n, n);
 	number_display(n);
-	display_rule(n, question);
+	display_rule(n, question,sleep_speed);
 	number_display(n);
 	start=clock();
 	do
 	{
-		game_control(question, n, &count);
+		game_control(question, n, &count,sleep_speed);
 	}while(count<n*n/2);
 	gotoxy(2, 18);
 	printf("모두 맞았습니다. 아무거나 누르면 메뉴로 돌아갑니다. \n");
@@ -83,7 +108,7 @@ int intro_game(void)
 	if(n == 4 || n == 6) 	return n;
 	else intro_game();
 }
-void display_rule(int n, char question[][10])
+void display_rule(int n, char question[][10],int sleep_speed)
 {
  //[함수 11.3.2]의 정의 부분 참고
 	gotoxy(2,14);
@@ -98,11 +123,11 @@ void display_rule(int n, char question[][10])
 	gotoxy(2,14);
 	printf("정답화면은 위와 같습니다. \n");
 	gotoxy(2,15);
-	printf("5초 뒤에 문제 풀이를 시작합니다. \n");
-	Sleep(5000);
+	printf("%d초 뒤에 문제 풀이를 시작합니다. \n",sleep_speed/1000);
+	Sleep(sleep_speed);
 	clear_text();
 }
-void game_control(char question[][10], int n, int *count)
+void game_control(char question[][10], int n, int *count,int sleep_speed)
 {
  //[함수 11.3.3]의 정의 부분 참고
 int user1, user2, row1, row2, col1, col2;
@@ -180,6 +205,7 @@ int user1, user2, row1, row2, col1, col2;
 		  printf("%2d", user1);
 		  gotoxy(3+4*col2, 2+2*row2);
 		  printf("%2d", user2);
+  	  	  clear_text();
   	  	  gotoxy(2, position+1);
 	      printf("틀렸습니다. 아무키나 누르면 시작합니다. ");
 		  getch();
@@ -190,9 +216,9 @@ void clear_text(void)
 {
  //[함수 11.3.4]의 정의 부분 참고
 	int i, j;
-	for(i=14;i<17;i++)
+	for(i=13;i<18;i++)
 	{
-		gotoxy(2, i);
+		gotoxy(1, i);
 		for(j=0;j<70;j++)
 			printf(" ");
 	}
@@ -200,6 +226,7 @@ void clear_text(void)
 void number_display(int n)
 {
  //[함수 11.3.5]의 정의 부분 참고
+  textcolor(15);
   int i, j, count=0;
   for(i=0;i<n;i++)
 	  for(j=0;j<n;j++)
@@ -309,6 +336,7 @@ void gotoxy(int x, int y)
    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Pos);
 }
 void title(){
+	textcolor(10);
 	printf("\n\n"); // 3칸 띄우기 
 	printf("         ####      #    #       #  ###### \n");
 	printf("        #    #     #    ##     ##  #   \n");
@@ -339,6 +367,7 @@ do
 	gotoxy(35,17);
 	printf("선택은 스페이스바를 눌러주세요.");
 	key=getch();
+	textcolor(7);
 	if (key>=72){
 		gotoxy(x-2,y);
 		printf(" ");
@@ -349,6 +378,24 @@ do
 	}
 
    }while(1);
+}
+void levelSelectMenu()
+{
+ textcolor(11);
+ system("cls");
+ printf("┏-------------------------------┓\n");
+ printf("┃    ▤▤ 난이도 선택 ▤▤      ┃\n");
+ printf("┃                               ┃\n");
+ printf("┃        1. E a s y             ┃\n");
+ printf("┃                               ┃\n");
+ printf("┃        2. N o r m a l         ┃\n");
+ printf("┃                               ┃\n");
+ printf("┃        3. H a r d             ┃\n");
+ printf("┃                               ┃\n");
+ printf("┃        0. 메인 메뉴           ┃\n");
+ printf("┃                               ┃\n");
+ printf("┗-------------------------------┛\n");
+ printf(" Select > ");
 }
 void move_arrow_key(char key, int *x1, int *y1, int x_b, int y_b)
 {
@@ -365,4 +412,8 @@ void move_arrow_key(char key, int *x1, int *y1, int x_b, int y_b)
 	default:
 		return;
 	}
+}
+void textcolor(int color_number)
+{
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color_number);
 }
