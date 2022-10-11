@@ -150,11 +150,11 @@ int user1, user2, row1, row2, col1, col2;
 		scanf("%d",&user2);
 		clear_text();
 		}
-		while(user2 == user1){
-			gotoxy(2, position+2);
-			printf("입력된 값이 동일합니다. 다시 입력 해주세요.>");
-			scanf("%d",&user2);
-			clear_text();
+	while(user2 == user1){
+		gotoxy(2, position+2);
+		printf("입력된 값이 동일합니다. 다시 입력 해주세요.>");
+		scanf("%d",&user2);
+		clear_text();
 	}	
 	row2=user2/n;
 	col2=user2%n;
