@@ -3,10 +3,7 @@
 #include <conio.h>
 #include <time.h>
 #include <windows.h>
- 
-#define UP 72 // 윗 방향키 
-#define DOWN 80 // 아랫 방향키 
-#define SPACE 4	// 스페이스 
+
 int intro_game(void);
 int menu();
 int game(void);
