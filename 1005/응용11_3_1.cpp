@@ -3,10 +3,10 @@
 #include <conio.h>
 #include <time.h>
 #include <windows.h>
-
-#define UP 72
-#define DOWN 80
-#define SPACE 4	
+ 
+#define UP 72 // 윗 방향키 
+#define DOWN 80 // 아랫 방향키 
+#define SPACE 4	// 스페이스 
 int intro_game(void);
 int menu();
 int game(void);
@@ -24,6 +24,7 @@ void textcolor(int color_number);
 
 int main(void)
 {
+//	PlaySound(TEXT("bgm.wav"),NULL,SND_ASYNC | SND_LOOP); // -lwinmm 링커 설정 
 		while(1){
 			title();
 			int menuValue = menu();
@@ -135,34 +136,28 @@ int user1, user2, row1, row2, col1, col2;
 	gotoxy(2, position);
 	printf("첫번째 숫자를 입력하고 Enter>");
 	scanf("%d", &user1);
-	if(user1 < 0 || user1 >= n*n){
-		while(user1 < 0 || user1 >= n*n){
-			gotoxy(2, position);
-			printf("입력된 값이 존재 하지 않습니다. 다시 입력 해주세요.>");
-			scanf("%d",&user1);
-			clear_text();
+	while(user1 < 0 || user1 >= n*n){
+		gotoxy(2, position);
+		printf("입력된 값이 존재 하지 않습니다. 다시 입력 해주세요.>");
+		scanf("%d",&user1);
+		clear_text();
 	}
-}
 	row1=user1/n;
-        col1=user1%n;
+    col1=user1%n;
 	gotoxy(2, position+1);
 	printf("두번째 숫자를 입력하고 Enter>");
 	scanf("%d", &user2);
-	if(user2 < 0 || user2 >= n*n ){
-		while(user2 < 0 ||user2 >= n*n){
-			gotoxy(2, position+1);
-			printf("입력된 값이 존재 하지 않습니다. 다시 입력 해주세요.>");
-			scanf("%d",&user2);
-			clear_text();
+	while(user2 < 0 ||user2 >= n*n){
+		gotoxy(2, position+1);
+		printf("입력된 값이 존재 하지 않습니다. 다시 입력 해주세요.>");
+		scanf("%d",&user2);
+		clear_text();
 		}
-	}
-	else if(user2 == user1){
 		while(user2 == user1){
 			gotoxy(2, position+2);
 			printf("입력된 값이 동일합니다. 다시 입력 해주세요.>");
 			scanf("%d",&user2);
 			clear_text();
-		}
 	}	
 	row2=user2/n;
 	col2=user2%n;
@@ -216,7 +211,7 @@ void clear_text(void)
 {
  //[함수 11.3.4]의 정의 부분 참고
 	int i, j;
-	for(i=13;i<18;i++)
+	for(i=14;i<18;i++)
 	{
 		gotoxy(1, i);
 		for(j=0;j<70;j++)
@@ -350,6 +345,7 @@ void title(){
 	printf("         ### #  #     # #       #  ###### \n");
 }
 int menu(){
+	textcolor(15);
 	int x = 20;
 	int y = 16;
 	char key;
@@ -367,7 +363,6 @@ do
 	gotoxy(35,17);
 	printf("선택은 스페이스바를 눌러주세요.");
 	key=getch();
-	textcolor(7);
 	if (key>=72){
 		gotoxy(x-2,y);
 		printf(" ");
