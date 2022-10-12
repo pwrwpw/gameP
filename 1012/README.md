@@ -11,6 +11,6 @@
  * 종료화면 추가
  * 방향 키 기능 추가
 > 발표 자료
-![jpg_1](./ppt_screenshot.png)
+![jpg_1](./ppt_screenshot.png.jpg)
 
 > 마지막 수정 날짜(2022-10-12)
