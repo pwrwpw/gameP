@@ -22,7 +22,6 @@ void textcolor(int color_number);
 int main(void)
 {
 //	PlaySound(TEXT("bgm.wav"),NULL,SND_ASYNC | SND_LOOP); // -lwinmm 링커 설정 
-		while(1){
 			title();
 			int menuValue = menu();
 			if(menuValue == 0){
@@ -35,7 +34,6 @@ int main(void)
 				printf("종료 되었습니다.");
 				return 0;
 			}
-	}
 	return 0;
 }
 int game(void)
@@ -183,6 +181,10 @@ int user1, user2, row1, row2, col1, col2;
 		printf("%2c", question[row2][col2]);
 	  	gotoxy(2, 16);
 	    printf("맞았습니다. 아무키나 누르면 다시 시작합니다. ");
+	    Beep(440,200);
+	    Beep(554,200);
+	    Beep(659,200);
+	    Beep(880,200);
   		getch();
 		clear_text();
 	}
@@ -200,6 +202,7 @@ int user1, user2, row1, row2, col1, col2;
   	  	  clear_text();
   	  	  gotoxy(2, position+1);
 	      printf("틀렸습니다. 아무키나 누르면 시작합니다. ");
+	      Beep(880,200);
 		  getch();
 		  clear_text();
 	}
