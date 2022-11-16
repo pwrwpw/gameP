@@ -1,0 +1,97 @@
+@font-face {
+    font-family: 'Tenada';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2210-2@1.0/Tenada.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+    font-family: 'Tenada';
+}
+
+body {
+    color: black;
+    height: 100vh;
+    width: 100vw;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+}
+
+div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 15px;
+}
+
+
+button:focus {
+    outline: 0;
+}
+
+canvas {
+    border-radius: 5px;
+    box-shadow: black 20px 10px 50px;
+    border: solid 10px;
+}
+
+#game-menu {
+
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#menu-card {
+    background-color: white;
+    border-radius: 5px;
+    width: 500px;
+    height: 500px;
+    text-align: center;
+    color: black;
+}
+
+#menu-card h1 {
+    margin-top: 10px;
+    font-size: 40px;
+}
+
+#menu-card button {
+    color: white;
+    outline: none;
+    border: none;
+    background-color: rgb(89, 0, 255);
+    cursor: pointer;
+    padding: 10px 20%;
+    border-radius: 40px;
+    font-size: 40px;
+}
+
+#end-score {
+    display: none;
+}
+
+#replay {
+    font-size: 10px;
+    padding: 10px 20px;
+    background: #4cffd7;
+    border: none;
+    color: #222738;
+    border-radius: 20px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#replay:hover {
+    background: #4cffd7;
+    background: gray;
+    transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}

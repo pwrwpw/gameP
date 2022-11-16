@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Snake Game</title>
+  <link rel="stylesheet" type="text/css" href="css/style.css" />
+</head>
+
+<body>
+  <script type="text/javascript" src="js/const.js"></script>
+  <script type="text/javascript" src="js/audio.js"></script>
+  <h1>SNAKE</h1>
+  <section id="game-menu">
+    <div id="menu-card">
+      <h1>SNAKE GAME</h1>
+      <button id="btd_play">Play</button>
+      <div id="end-score">
+        <h2>Score: <span id="ENDSCORE">0</span></h2>
+        <h2>HighScore: <span id="Highscore">0</span></h2>
+      </div>
+    </div>
+  </section>
+  <div class="wrapper">
+    <canvas id="canvas" height="400" width="400"></canvas>
+    <h2>Score: <span id="score">0</span></h2>
+    <h2>Level: <span id="level">0</span></h2>
+  </div>
+  <script type="text/javascript" src="js/Game.js"></script>
+  <script type="text/javascript" src="js/Fruit.js"></script>
+  <script type="text/javascript" src="js/draw.js"></script>
+  <script type="text/javascript" src="js/gamestart.js"></script>
+  <script type="text/javascript" src="js/Snake.js"></script>
+</body>
+
+</html>
