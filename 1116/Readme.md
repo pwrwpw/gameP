@@ -9,4 +9,4 @@ CANVAS 게임 개선
 
 > 마지막 수정 날짜(2022-11-16)
 
-Web[https://gamephtml.netlify.app/]
+[Web](https://gamephtml.netlify.app/)
